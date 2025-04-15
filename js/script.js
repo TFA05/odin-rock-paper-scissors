@@ -16,6 +16,17 @@ function getHumanChoice(){
 
 function playGame(){
     
+    function whoWon(hand, strong, weak, computerChoice){
+        if (computerChoice === strong){
+            alert(`You lose! ${strong} beats ${hand}`)
+            computerScore++;
+        }
+        else{
+            alert(`You win! ${hand} beats ${weak}`)
+            humanScore++;
+        }
+    }
+
     function playRound(humanChoice, computerChoice){
         humanChoice = humanChoice.toLowerCase();
         computerChoice = computerChoice.toLowerCase();
@@ -24,38 +35,16 @@ function playGame(){
             alert("Draw");
         }
         else if (humanChoice === "rock"){
-            if (computerChoice === "paper"){
-                alert("You lose! Paper beats Rock")
-                computerScore++;
-            }
-            else{
-                alert("You win! Rock beats Scisors")
-                humanScore++;
-            }
+            whoWon("rock", "paper", "scissors", computerChoice);
         }
         else if (humanChoice === "paper"){
-            if (computerChoice === "scissors")
-                {
-                    alert("You lose! Scissors beat Paper")
-                    computerScore++;            
-            }
-            else{
-                alert("You win! Paper beats rock")
-                humanScore++;
-            }
+            whoWon("paper", "scissors", "rock", computerChoice);
         }
         else{
-            if (computerChoice === "rock"){
-                alert("You lose! Rock beats Scissors")
-                computerScore++;
-            }
-            else{
-                alert("You win! Scissors beat Paper")
-                humanScore++;
-            }
+            whoWon("scissors", "rock", "paper", computerChoice);
         }
     }
-    
+
     let humanScore = 0;
     let computerScore = 0;
 
