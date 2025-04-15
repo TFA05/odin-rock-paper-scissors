@@ -14,49 +14,64 @@ function getHumanChoice(){
     return prompt('Select between Rock, Paper and Scissors')
 }
 
-function playRound(humanChoice, computerChoice){
-    humanChoice = humanChoice.toLowerCase();
-    computerChoice = computerChoice.toLowerCase();
-
-    if (humanChoice === computerChoice){
-        return "Draw";
+function playGame(){
+    
+    function playRound(humanChoice, computerChoice){
+        humanChoice = humanChoice.toLowerCase();
+        computerChoice = computerChoice.toLowerCase();
+    
+        if (humanChoice === computerChoice){
+            alert("Draw");
+        }
+        else if (humanChoice === "rock"){
+            if (computerChoice === "paper"){
+                alert("You lose! Paper beats Rock")
+                computerScore++;
+            }
+            else{
+                alert("You win! Rock beats Scisors")
+                humanScore++;
+            }
+        }
+        else if (humanChoice === "paper"){
+            if (computerChoice === "scissors")
+                {
+                    alert("You lose! Scissors beat Paper")
+                    computerScore++;            
+            }
+            else{
+                alert("You win! Paper beats rock")
+                humanScore++;
+            }
+        }
+        else{
+            if (computerChoice === "rock"){
+                alert("You lose! Rock beats Scissors")
+                computerScore++;
+            }
+            else{
+                alert("You win! Scissors beat Paper")
+                humanScore++;
+            }
+        }
     }
     
-    if (humanChoice === "rock"){
-        if (computerChoice === "paper"){
-            alert("You lose! Paper beats Rock")
-            humanScore++;
+    let humanScore = 0;
+    let computerScore = 0;
+
+    let gameOver = false;
+    while(!gameOver){
+        playRound(getHumanChoice(), getComputerChoice());
+
+        if (humanScore === 3){
+            alert(`Congrats! You won! ${humanScore}-${computerScore}`);
+            gameOver = true;
         }
-        else{
-            alert("You win! Rock beats Scisors")
-            computerScore++;
-        }
-    }
-    else if (humanChoice === "paper"){
-        if (computerChoice === "scissors")
-            {
-                alert("You lose! Scissors beat Paper")
-                humanScore++;            
-        }
-        else{
-            alert("You win! Paper beats rock")
-            computerScore++;
-        }
-    }
-    else{
-        if (computerChoice === "rock"){
-            alert("You lose! Rock beats Scissors")
-            humanScore++;
-        }
-        else{
-            alert("You win! Scissors beat Paper")
-            computerScore++;
+        else if (computerScore === 3){
+            alert(`You lost... ${humanScore}-${computerScore}`);
+            gameOver = true;
         }
     }
 }
 
-let humanScore = 0;
-let computerScore = 0;
-
-playRound(getHumanChoice(), getComputerChoice());
-
+playGame();
