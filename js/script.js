@@ -10,57 +10,77 @@ function getComputerChoice(){
     }
 }
 
-function getHumanChoice(){
-    return prompt('Select between Rock, Paper and Scissors')
-}
-
 function playGame(){
     
-    function whoWon(hand, strong, weak, computerChoice){
+    function finishGame(didWin){
+        if (didWin) resultContainer.textContent = "You WON!!!! CONGRATS!!!\nPlay again?"
+        else resultContainer.textContent = "You LOST LOSER...!!!\nPlay again?"
+
+        reset = true;
+    }
+
+    function finishRound(hand, strong, weak, computerChoice){
         if (computerChoice === strong){
-            alert(`You lose! ${strong} beats ${hand}`)
-            computerScore++;
+            resultContainer.textContent = `You lose! ${strong} beats ${hand}`;
+            computerScore.textContent = Number(computerScore.textContent) + 1
+
+            if (computerScore.textContent === "3"){
+                finishGame(false);
+            }
         }
         else{
-            alert(`You win! ${hand} beats ${weak}`)
-            humanScore++;
+            resultContainer.textContent = `You win! ${hand} beats ${weak}`;
+            humanScore.textContent = Number(humanScore.textContent) + 1
+            if (humanScore.textContent === "3"){
+                finishGame(true);
+            }
         }
-    }
+    }   
 
     function playRound(humanChoice, computerChoice){
         humanChoice = humanChoice.toLowerCase();
         computerChoice = computerChoice.toLowerCase();
     
         if (humanChoice === computerChoice){
-            alert("Draw");
+            resultContainer.textContent = "Draw";
         }
         else if (humanChoice === "rock"){
-            whoWon("rock", "paper", "scissors", computerChoice);
+            finishRound("rock", "paper", "scissors", computerChoice);
         }
         else if (humanChoice === "paper"){
-            whoWon("paper", "scissors", "rock", computerChoice);
+            finishRound("paper", "scissors", "rock", computerChoice);
         }
         else{
-            whoWon("scissors", "rock", "paper", computerChoice);
+            finishRound("scissors", "rock", "paper", computerChoice);
         }
     }
 
-    let humanScore = 0;
-    let computerScore = 0;
+    let btnContainer = document.querySelector(".btnContainer");
+    let resultContainer = document.querySelector(".result");
+    let humanScore = document.querySelector(".humanScore");
+    let computerScore = document.querySelector(".computerScore");
+    
+    let reset = false;
 
-    let gameOver = false;
-    while(!gameOver){
-        playRound(getHumanChoice(), getComputerChoice());
+    btnContainer.addEventListener("click", (e) => {
+        if (reset){
+            humanScore.textContent = 0;
+            computerScore.textContent = 0;
+            reset = false;
+        }
 
-        if (humanScore === 3){
-            alert(`Congrats! You won! ${humanScore}-${computerScore}`);
-            gameOver = true;
-        }
-        else if (computerScore === 3){
-            alert(`You lost... ${humanScore}-${computerScore}`);
-            gameOver = true;
-        }
+        switch(e.target.className){
+            case "rockBtn":
+                playRound("rock", getComputerChoice());
+                break;
+            case "paperBtn":
+                playRound("paper", getComputerChoice());
+                break;
+            case "scissorsBtn":
+                playRound("scissors", getComputerChoice());
+                break;
     }
+})
 }
 
 playGame();
