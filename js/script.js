@@ -13,8 +13,8 @@ function getComputerChoice(){
 function playGame(){
     
     function finishGame(didWin){
-        if (didWin) resultContainer.textContent = "You WON!!!! CONGRATS!!!\nPlay again?"
-        else resultContainer.textContent = "You LOST LOSER...!!!\nPlay again?"
+        if (didWin) resultContainer.textContent = "VICTORY!!!!!!!\nPlay again?"
+        else resultContainer.textContent = "LOSERRRRR\nPlay again?"
 
         reset = true;
     }
@@ -22,7 +22,10 @@ function playGame(){
     function finishRound(hand, strong, weak, computerChoice){
         if (computerChoice === strong){
             resultContainer.textContent = `You lose! ${strong} beats ${hand}`;
-            computerScore.textContent = Number(computerScore.textContent) + 1
+            computerScore.textContent = Number(computerScore.textContent) + 1;
+            humanScore.style.backgroundColor = 'black';
+            computerScore.style.backgroundColor = 'red';
+            sign.textContent = '<';
 
             if (computerScore.textContent === "3"){
                 finishGame(false);
@@ -31,6 +34,11 @@ function playGame(){
         else{
             resultContainer.textContent = `You win! ${hand} beats ${weak}`;
             humanScore.textContent = Number(humanScore.textContent) + 1
+            humanScore.style.backgroundColor = 'green';
+            computerScore.style.backgroundColor = 'black';
+            sign.textContent = '>';
+
+
             if (humanScore.textContent === "3"){
                 finishGame(true);
             }
@@ -40,9 +48,15 @@ function playGame(){
     function playRound(humanChoice, computerChoice){
         humanChoice = humanChoice.toLowerCase();
         computerChoice = computerChoice.toLowerCase();
-    
+
+        humanWeaponImg.src = `img/${humanChoice}.png`;
+        computerWeaponImg.src = `img/${computerChoice}.png`;
+
         if (humanChoice === computerChoice){
             resultContainer.textContent = "Draw";
+            computerScore.style.backgroundColor = 'black';
+            humanScore.style.backgroundColor = 'black';
+            sign.textContent = '=';
         }
         else if (humanChoice === "rock"){
             finishRound("rock", "paper", "scissors", computerChoice);
@@ -59,6 +73,9 @@ function playGame(){
     let resultContainer = document.querySelector(".result");
     let humanScore = document.querySelector(".humanScore");
     let computerScore = document.querySelector(".computerScore");
+    let humanWeaponImg = document.querySelector(".humanWeapon");
+    let computerWeaponImg = document.querySelector(".computerWeapon");
+    let sign = document.querySelector(".sign");
     
     let reset = false;
 
@@ -69,7 +86,10 @@ function playGame(){
             reset = false;
         }
 
-        switch(e.target.className){
+        const targetButton = e.target.closest("button");
+        if (!targetButton) return;
+
+        switch(targetButton.className){
             case "rockBtn":
                 playRound("rock", getComputerChoice());
                 break;
